@@ -1,0 +1,114 @@
+#container {
+  width: 1050px;
+}
+
+.hours {
+  width: 1000px;
+  height: 20px;
+  display: flex;
+  flex-direction: row;
+}
+
+.periods {
+  width: 960px;
+  height: 20px;
+  float: left;
+}
+
+.hour {
+  float: left;
+  width: 40px;
+  border-left: 1px dotted rgba(0, 0, 0, .2);
+  /text-align: center;
+  box-sizing: border-box;
+}
+
+.period:hover {
+  background-color: rgba(0, 0, 0, .1);
+}
+
+.period.functional::after {
+  /background-color: green;
+  display: block;
+  height: 50%;
+  width: 100%;
+  content: "";
+  border-bottom: 2px dashed green;
+}
+
+.period.broken::after {
+  display: block;
+  height: 50%;
+  width: 100%;
+  content: "";
+  border-bottom: 2px solid brown;
+}
+
+.period.formA {}
+
+.period.formA::before {
+  display: block;
+  height: 20px;
+  width: 100%;
+  content: "";
+  background: url(http://i.imgur.com/aU2bear.png) repeat;
+}
+
+.type,
+.number {
+  float: left;
+  width: 50px;
+  height: 20px;
+}
+
+.period {
+  height: 20px;
+  float: left;
+  box-sizing: border-box;
+  position: relative;
+  border-right: 1px dotted rgba(0, 0, 0, .2);
+}
+
+.period.formB {
+  position: relative;
+}
+
+.period.formB::before {
+  left: 50%;
+  transform: translateX(-50%);
+  content: "Ф-Б";
+  font-size: 9px;
+  position: absolute;
+  top: 0;
+  font-family: Segoe Ui;
+}
+
+.period.formB::after {
+  display: block;
+  height: 50%;
+  width: 100%;
+  content: "";
+  border-bottom: 2px dashed red;
+}
+
+.period.recovering::after {
+  display: block;
+  height: 50%;
+  width: 100%;
+  content: "";
+  border-bottom: 3px dotted red;
+}
+
+.period:hover {
+  border-right: 1px solid grey;
+}
+
+.toolbar {
+  width: 100%;
+  float: left;
+}
+
+.planePeriods {
+  display: flex;
+  flex-direction: row;
+}

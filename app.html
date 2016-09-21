@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+	<meta charset="UTF-8">
+	<link href="app.css" rel="stylesheet" type="text/css">
+	
+	<script src="build/react.js"></script>
+	<script src="build/react-dom.js"></script>
+	<script src="build/browser.min.js"></script>
+</head>
+<body>
+
+	<div id="container"></div>
+	<script type="text/babel">
+		var fs = require('fs');
+		global.periodss = {};
+		var planes = [
+			{"number":"12345","type":"Як89"},
+			{"number":"87554","type":"Миг12"},
+			{"number":"54231","type":"Me-262"}
+		];
+		var hours = [];
+		for(let i = 0; i <= 24; i++) {
+			hours[hours.length] = i;
+		};
+		var periods = [];
+		periods[12345] = [
+			{end:180,type:"functional"},
+			{end:300,type:"formA"},
+			{end:600,type:"functional"}
+		];
+		periods[87554] = [
+			{end:240,type:"broken"},
+			{end:600,type:"functional"}
+		];
+		periods[54231] = [
+			{end:180,type:"formB"},
+			{end:480,type:"recovering"}
+		];
+		var previousPeriodEnd = 0;
+		var periodWidth = 0;
+		var Header = React.createClass({
+			render: function() {
+			return(
+				<div className="header">
+					<div className="hours">
+					{hours.map(function(hour){
+						return(<div className="hour">{hour}</div>);
+					})}
+				</div>
+				</div>
+			)
+		  }
+		});
+		var Toolbar = React.createClass({
+			render: function() {
+			return(
+				<div className="toolbar">
+					<input id="delete" type="checkbox"></input><label htmlFor="delete">Удалить</label>
+					<button>Del</button>
+					<button>Recovering</button>
+				</div>
+			)
+		  }
+		});
+		var planePeriods = React.createClass({
+			render: function() {
+			return(
+				<div className="planePeriods">
+
+				</div>
+			);
+			}
+		});
+var App = React.createClass({
+	getInitialState: function() {
+    	return {date: new Date().toISOString().split('T')[0]};
+	},
+	handleDateChange: function() {
+		this.setState({date: document.getElementById("date").value});
+		fs.readFile('data\\'+this.state.date+'.json', (err, data) => {
+			if (err) throw err;
+			periods = JSON.parse(data);
+		});
+	},
+	handleClick: function() {
+  		periods[12345][periods[12345].length] = {end:1000,type:"broken"};
+	},
+  render: function() {
+	return(
+		<div>
+			<input id="date" type="date" value={this.state.date} onChange={this.handleDateChange}/>
+		  	<div className="number" onClick={this.handleClick}></div>
+		  	<Header />
+
+		  	{planes.map(function(plane){
+				previousPeriodEnd=0;
+				return(
+			  	<div className="planePeriods">
+					<div className="number" title={plane.type}>{plane.number}</div>
+					<div className="periods">
+				  {periods[plane.number].map(function(period){
+				  		periodWidth = (period.end - previousPeriodEnd) * 100 / 24 / 60;
+					  previousPeriodEnd = period.end;
+					  switch(period.type) {
+						case "functional": {
+							return( <div style={{width:periodWidth + '%'}} title="Исправен" className="period functional"></div>);
+						}
+						case "formA": {
+							return( <div style={{width:periodWidth + '%'}} title="Форма А" className="period formA"></div>);
+						}
+						case "formB": {
+							return( <div style={{width:periodWidth + '%'}} title="Форма Б" className="period formB"></div>);
+						}
+						case "broken": {
+							return( <div style={{width:periodWidth + '%'}} title="Неисправен" className="period broken"></div>);
+						}
+						case "recovering": {
+							return( <div style={{width:periodWidth + '%'}} title="Восстановление" className="period recovering"></div>);
+						}
+					  	default: {
+							return( <div style={{width:periodWidth + '%'}} className="period"></div>);
+						}
+					  }
+					
+				  })}
+				</div></div>
+			  );
+			})}
+			<Toolbar />
+	  </div>
+	);
+  }
+});
+
+ReactDOM.render(
+  <App />,
+  document.getElementById('container')
+);
+
+	</script>
+</body>
+</html>

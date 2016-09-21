@@ -1,0 +1,15 @@
+{
+	"12345": [
+		{"end":180,"type":"functional"},
+		{"end":300,"type":"formA"},
+		{"end":900,"type":"functional"}
+	],
+	"87554": [
+		{"end":240,"type":"broken"},
+		{"end":900,"type":"functional"}
+	],
+	"54231": [
+		{"end":180,"type":"formB"},
+		{"end":480,"type":"recovering"}
+	]
+}

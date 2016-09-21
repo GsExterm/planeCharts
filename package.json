@@ -1,0 +1,10 @@
+{
+  "name": "График исправности",
+  "main": "app.html",
+  "window": {
+    "toolbar": true,
+    "width": 1000,
+    "height": 600
+  },
+  "chromium-args": "--mixed-context"
+}
